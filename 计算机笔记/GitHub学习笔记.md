@@ -77,6 +77,8 @@ git config --global color.ui.auto
 
 ### 2.1 基本操作
 
+​		这里介绍了一下最常用的git仓库管理指令。
+
 1）初始化仓库：`git init`
 
 使用后会产生`.git`文件夹，可以认为其为附属于该仓库的文件夹
@@ -106,12 +108,62 @@ git config --global color.ui.auto
 ```shell
 只显示一行信息
 $ git log --pretty=short
+
 只显示指定目录的日志
 $ git log ~
+
 显示文件的改动
 $ git log -p ~
+
+以图标的形式来查看
+$git log --graph
 ```
 
 6）查看更改前后的差别：`git diff`
 
 查看工作树，暂存区，最新提交之间的差别。
+
+增加的行有+表示，减少的行用-表示
+
+### 2.2 分支的操作
+
+​		在我们进行并行作业的时候，往往存在多个最新状态，我们可以创建新的分支，等完成后再与master主分支进行合并。
+
+1）显示分支一览表：`git branch`
+
+2）创建、切换分支：`git checkout -b`
+
+​	详细用法：
+
+```shell
+只切换到分支A
+$ git checkout A
+
+可以使用-来代表上一个分支
+
+创建并进入分支A
+$ git checkout -b A
+或者执行两条
+$ git branch A
+$ git checkout A
+```
+
+之后的活动都将在分支A下进行，称之为：**培育分支**
+
+​	**特性（Topic）分支**：集中实现单一特性，除此之外不再进行其他操作。
+
+​	**主干分支**：master分支，代码都为开发完全，可以随时给别人查看。
+
+3）合并分支：`git merge`
+
+```shell
+在主分支mmaster下操作
+
+为了在历史记录上记录下本次的合并，我们需要加上 --no-ff
+$git merge --no-ff A
+
+A分支就会合并到主分支中
+```
+
+### 2.3 更改提交的操作
+
