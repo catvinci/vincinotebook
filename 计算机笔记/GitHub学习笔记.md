@@ -4,6 +4,8 @@
 
 [toc]
 
+---
+
 ## 一、准备工作
 
 ### 1.1 安装Git
@@ -73,6 +75,8 @@ git config --global color.ui.auto
    $ ssh -T git@github.com
    ```
 
+---
+
 ## 二、开始使用git
 
 ### 2.1 基本操作
@@ -99,6 +103,9 @@ git config --global color.ui.auto
 提交详细记录:git commit
 之后会打开编辑器，自动等待提交信息
 格式：第一行文字简单记叙内容，第二行为空行，第三行记录更改的原因和详细信息
+
+修改并且直接提交
+$ git commit -am "commit information"
 ```
 
 5）查看提交日志：`git log`
@@ -166,4 +173,58 @@ A分支就会合并到主分支中
 ```
 
 ### 2.3 更改提交的操作
+
+1）回溯历史版本：`git reset`
+
+git的一个特征就是可以灵活的**操作历史版本**。
+
+```shell
+让仓库，暂存区以及当前的工作树都回到某一个版本
+$ git reset --hard
+
+```
+
+2）推进历史版本
+
+```shell
+查看全部日志文件
+$ git reflog
+
+推进到返回之前的版本
+$ git reset --hard (哈希值只要输入四位以上就可以定位)
+```
+
+3）修改提交记录:`git commit --amend`
+
+4）压缩历史：`git rebase -i`
+
+```shell
+使用
+$ git rebase -i HEAD~2
+表示更改了最新的两次记录
+```
+
+### 2.4 远程仓库的操作
+
+1）在GitHub上创建远程仓库（记得别勾选initialize this ……）
+
+2）添加远程仓库：`git remote add`
+
+```shell
+在GitHub上创建的仓库路径为："git@github.com:用户名/仓库名"
+```
+
+3）推送到远程仓库：`git push`
+
+```shell
+$ git push -u(使得被推送的仓库成为本仓库的上游仓库，可以pull)
+```
+
+4）获取远程仓库：`git clone`
+
+5）获取最新的远程仓库分支：`git pull`
+
+---
+
+## 三、GitHub的使用
 
