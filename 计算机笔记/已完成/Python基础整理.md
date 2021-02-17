@@ -8,11 +8,11 @@
 
 ### 1.1 安装
 
-建议直接下载anaconda的发行版。同时还包括了所有以后会经常使用到的包。
+​		建议直接下载anaconda的发行版。同时还包括了所有以后会经常使用到的包。
 
 ### 1.2 编程环境
 
-可以下载并使用pycharm、也可以使用jupyter notebook作为环境。
+​		可以下载并使用pycharm、也可以使用jupyter notebook作为环境。
 
 ---
 
@@ -22,7 +22,7 @@
 
 ### 2.1 缩进
 
-python中缩进是一切的根本，使用缩进来标识了语言的范围
+​		python中缩进是一切的根本，使用缩进来标识了语言的范围
 
 ### 2.2标量类型
 
@@ -89,7 +89,7 @@ while conditional:
 
 2.4.1 **元组**
 
-元组是一种长度固定的，不可变的对象序列
+​		元组是一种长度固定的，不可变的对象序列
 
 ```python
 # 元组的创建
@@ -147,6 +147,7 @@ list.insert(1,"123")
 # 加入多个元素
 list.extend([1,2,3])
 
+# 使用方法来增加元素不创建新的对象，而使用+则创建返回一个新的对象。
 ```
 
 **删除元素**
@@ -183,6 +184,11 @@ list3=zip（list，list2）
 # 返回列表内元素的内容以及其索引
 enumerate(list)
 常用于：for i in enumerate (list)
+
+
+# 以得到下标的方式来遍历一个列表
+for i in range(len(list)):
+    list[i]
 ```
 
 2.4.3 **字典**
@@ -279,6 +285,8 @@ a-b
 a^b
 # 判断a是否包含（包含于）b
 a.issubet(b)(a.issuperset(b))
+# 判断子集
+a<=b
 ```
 
 
@@ -370,7 +378,31 @@ for x in gen: #调用生成器
 
 可以使用生成器表达式来代替我们的列表推导式
 
+### 3.5 可变长参数元组
 
+函数可以接受不指定个数的参数
+
+```python
+def pr(*args):
+    pass
+```
+
+上面的这个函数可以读取多个参数，到一个args元组中。
+
+相反，除了**收集**也有**分散**方法，可以在调用的时候前面加上`*`来实现把参数列表里面的元组打散
+
+```python
+t=(1,2)
+divmod(*t)
+```
+
+很多可以接受不止一个变量的函数也是使用了**分散**方法来完成多个参量的读取。
+
+*关键字参数的收集*：
+
+​		只使用`*`并不会收集关键字实参，而使用`**`则可以收集所有的关键字实参，并将其变成一个映射字典。当处理很多关键字的函数十分有用。
+
+---
 
 ## 四、错误与异常
 
@@ -386,7 +418,7 @@ def tryfunction(x):
         # 无论如何都要执行的代码
 ```
 
-
+---
 
 ## 五、操作系统与文件
 
@@ -428,3 +460,235 @@ seek(pos) #移动到指定位置
 tell() #返回当前的文件位置
 ```
 
+### 5.2 path（os）
+
+```python
+import os
+os.getcwd() # get current working directory
+os.path.abspath() # 寻找绝对路径
+os.path.exists() # 检查一个文件是否存在
+os.path.isdir() # 检查是否为目录
+os.listdir() # 返回指定目录的列表
+os.path.join(,) # 接受一个目录和一个文件名字，并将它们拼成一个完整的path
+```
+
+### 5.3 数据库与封存
+
+我们可以使用`dbm`模块来创建和更新数据库，来达到储存类似字典的对象。
+
+```python
+import dbm
+db=dbm.open('name',c) # 打开创建一个数据库，如果不存在则创建
+db['a'] ='a' # 向数据库内储存一个字符
+db['a']='b' # 更新储存的内容
+db.close() # 关闭文件
+```
+
+dbm有个严格的限制，键和值都必须是字符串或者字节，不能使用其他类型。
+
+对此我们可以使用`pickle`模块来进行封存。
+
+```python
+import pickle
+# 将t列表转换为一个字符串对象，进行在数据库内的储存
+t=[1,2,3]
+st=pickle.dumps(t)
+
+# 将封装好的对象重新打开
+pickle.loads(st) # 打开后的对象虽然与封装之前的对象相等，但并不是同一个对象
+```
+
+---
+
+## 六、面向对象编程
+
+### 6.1 类
+
+Python是一门面向对象的编程语言
+
+1. 程序包括类的定义和方法的定义
+2. 大部分计算操作是通过面向对象来实现的
+3. 由对象之间的交互组成
+
+6.1.1 类的定义
+
+```python
+class name:
+    '''
+    note
+    '''
+```
+
+6.1.2 类的初始化（`__init__`)
+
+init方法(initialization)，可以在对象被初始化的时候会调用
+
+```python
+class name:
+    '''
+    note
+    '''
+    def __init__(self,first=firstname,last=lastname)
+    	self.first=first
+        self.last=last
+```
+
+### 6.2 实例
+
+6.2.1 创建实例
+
+我们可以使用类来实例化一个对象。
+
+`n=name(bob,shen)`这样可以把n变成一个name类型的对象，此时具有了first与last两个**属性**。
+
+为了判断一个属性是否被对象所拥有，我们可以使用`hasattr`函数
+
+```python
+hasattr(name,first)
+```
+
+我们也可以给n这个实例来增加新的属性，但一般建议都在初始化的时候确定。
+
+另外，我们也可以使用`vars`函数来把一个对象的所有属性名称和值进行字典映射。
+
+**==注意==**：在进行类的初始化过程中尽量避免`def __init__(*self*, *name*, *contents*=[]):`的写法，因为这样会导致每一个定义的对象指向的列表都是同一个，会导致数据的错乱。
+
+```python
+    def __init__(self, name, contents=None):
+        self.name = name
+        if contents == None:
+            contents = []
+        self.pouch_contents = contents
+```
+
+
+
+### 6.3 复制
+
+​		实例是一个可变的对象，而传递给函数的实例这是一个指针而不是一个新的对象，所以在函数内修改实例（即使使用的是别名），仍然会直接修改原本的对象。
+
+​		为了不使原本的对象发生修改，可以使用copy中的copy函数，将一个对象进行复制，只修改新的对象。而复制的对象与原本的对象，无论是`is`还是=都是不一样的。
+
+​		但如果有对象的嵌套，即一个对象的参数是另一个对象，则只复制地址，仍然会导致两个不一样的对象指向了一个对象，为了防止这种情况，可以使用深复制（deep copy），这样复制的对象会把对象的属性的对象也进行复制。
+
+### 6.4 更好的打印
+
+我们可以使用`__str__`这个特殊来返回对象的字符串表达式。
+
+```python
+def __str__(self):
+    return '%c %c'% (self.first,self.last)
+```
+
+我们在使用print打印的时候会调用这个方法，并按照我们给定的格式来输出。
+
+*我们写一个新的类，使用 init 来初始化，又使用 str 来打印调试*
+
+### 6.5 操作符重载
+
+6.5.1 基本重载
+
+​		通过定义其他的特殊方法，可以指定各种操作符的行为。
+
+```python
+# 使用add重载+
+def __add__ (self,other):
+    return self+other
+'''
+使用上面这个方式只能使用左加法，为了可以右加法一样可以，我们可以使用如下代码
+'''
+def __radd__(self,other):
+    return self.__add__(other)
+```
+
+6.5.2 基于类型的分发
+
+​		我们使用`+`的时候可能两者的类型并不是我们所希望的样子，我们可以通过if等方式对不同的类型进行相应的处理，使得其可以进行运算。
+
+6.5.3 多态
+
+​		比起基于类型的方法，我们更可以使用能处理多个类型的函数：多态。
+
+​		如：sum函数可以用于任何有定义`__add__`的对象之间。
+
+### 6.6 继承
+
+​		继承是指定义一个新类，继承旧的类的大部分属性，再对一部分属性和方法进行修改。
+
+​		优点：可以大量减少代码的重复量，优化程序结构
+
+```python
+class Hand(Deck):
+    def __init__(self):
+        pass
+```
+
+​		使用上述代码，在类的定义后面追加的写另一个类，会首先把括号内的类全部都继承下来，而对于要修改的部分，我们可以在这个类里面进行重新的覆盖式定义。
+
+​		*我们在进行继承或者重载的时候，尽可能要保持接口的一致性，防止代码逻辑混乱*
+
+### 6.7 数据封装
+
+1. 从编写函数、读取全局变量开始。
+2. 当程序可以完美运行后，查看全局变量和函数之间的关系。
+3. 将变量封装成对象的属性，将函数封装为对象的方法。
+
+### 6.8 案例（扑克牌）
+
+```python
+import random
+
+class Card:
+    '''创建了一个单张卡片对象'''
+    def __init__(self,suit=0,rank=2):
+        self.suit=suit
+        self.rank=rank
+        
+    suit_name=['草花','方块','红心','黑桃']
+    rank_name=[None,'ace','2','3','4','5','6','7','8','9','10','Jack','queen','king']
+    
+    def __str__(self):
+        return '%s %s' %(Card.suit_name[self.suit],Card.rank_name[self.rank])
+
+    def __lt__(self,other):
+        return (self.suit,self.rank)<(other.suit,other.rank)
+    
+class Deck:
+    '''使用单张卡片对象，创建了完整的一套卡牌'''
+    def __init__(self):
+        self.cards=[]
+        for suit in range(4):
+            for rank in range(1,14):
+                card=Card(suit,rank)
+                self.cards.append(card)
+                
+    def __str__(self):
+        res=[]
+        for card in self.cards:
+            res.append(str(card))
+        return '\n'.join(res)
+    
+    def pop_card(self):
+        return self.cards.pop()
+    
+    def add_card(self,card):
+        self.cards.append(card)
+    
+    def shuffle(self):
+        random.shuffle(self.cards)
+        
+ class Hand(Deck):
+    '''继承了一套完整的卡牌的方法，对于初始化做了修改'''
+    def __init__(self,label=''):
+        self.cards=[]
+        self.label=label
+```
+
+**快速定义类**：我们也可以使用命名元组的方式，用简短的语句快速定义一个简单的只具有`init`和`str`方法的类
+
+```python
+from collections import namedtuple
+point=namedtuple('point',['x','y'])
+```
+
+上面这段代码的第一个参数是类的名字，第二个是参数的列表。
